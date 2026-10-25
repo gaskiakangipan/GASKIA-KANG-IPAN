@@ -1,0 +1,6 @@
+{
+  "name": "ASKIA — Platform Asesmen Digital Universal (TEStra)",
+  "description": "Platform asesmen digital universal untuk membuat, mengelola, melaksanakan, memantau, dan mengevaluasi kegiatan pretest serta posttest secara online.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

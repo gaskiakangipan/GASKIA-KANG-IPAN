@@ -1,0 +1,295 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil pengguna publik tanpa informasi sensitif pribadi",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID autentikasi pengguna"
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Nama lengkap pengguna"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["superadmin", "org_admin", "instructor", "participant"],
+          "maxLength": 32,
+          "description": "Peran pengguna dalam platform"
+        },
+        "organizationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "ID organisasi tempat pengguna bernaung"
+        },
+        "jobTitle": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Jabatan atau profesi pengguna"
+        },
+        "avatarUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "URL atau data avatar pengguna"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "suspended"],
+          "maxLength": 32,
+          "description": "Status aktif akun"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembuatan profil"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaruan profil"
+        }
+      },
+      "required": ["uid", "fullName", "role", "organizationId", "jobTitle", "status", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Informasi privat pengguna (email dan preferensi keamanan)",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID pemilik data privat"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Alamat email pengguna"
+        },
+        "notificationEmail": {
+          "type": "boolean",
+          "description": "Status notifikasi email"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembuatan dokumen"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaruan dokumen"
+        }
+      },
+      "required": ["ownerId", "email", "notificationEmail", "createdAt", "updatedAt"]
+    },
+    "AssessmentActivity": {
+      "title": "AssessmentActivity",
+      "description": "Kegiatan asesmen pretest, posttest, kuis, atau evaluasi",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID pembuat asesmen"
+        },
+        "organizationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "ID organisasi pemilik"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Judul kegiatan asesmen"
+        },
+        "assessmentType": {
+          "type": "string",
+          "enum": ["pretest", "posttest", "paired", "single", "quiz", "periodic"],
+          "maxLength": 32,
+          "description": "Jenis asesmen"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "ready", "scheduled", "ongoing", "completed", "archived"],
+          "maxLength": 32,
+          "description": "Status kegiatan asesmen"
+        },
+        "accessCode": {
+          "type": "string",
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Kode akses ujian"
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "description": "Durasi pengerjaan dalam menit"
+        },
+        "passingScore": {
+          "type": "integer",
+          "description": "Nilai minimum kelulusan"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembuatan"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaruan"
+        }
+      },
+      "required": ["ownerId", "organizationId", "title", "assessmentType", "status", "accessCode", "durationMinutes", "passingScore", "createdAt", "updatedAt"]
+    },
+    "QuestionItem": {
+      "title": "QuestionItem",
+      "description": "Butir soal dalam bank soal",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID pembuat soal"
+        },
+        "organizationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "ID organisasi pemilik soal"
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "Teks pertanyaan soal"
+        },
+        "questionType": {
+          "type": "string",
+          "enum": ["single_choice", "multiple_choice", "true_false", "short_answer", "numeric", "matching", "ordering", "essay", "image_question", "stimulus_case"],
+          "maxLength": 32,
+          "description": "Jenis butir soal"
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Kategori atau topik soal"
+        },
+        "topic": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Topik atau kompetensi dasar soal"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Daftar tag topik dan klasifikasi soal (maksimal 10 tag)"
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["mudah", "sedang", "sulit"],
+          "maxLength": 32,
+          "description": "Tingkat kesulitan soal"
+        },
+        "points": {
+          "type": "integer",
+          "description": "Bobot nilai soal"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"],
+          "maxLength": 32,
+          "description": "Status publikasi soal di bank soal"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembuatan soal"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaruan soal"
+        }
+      },
+      "required": ["ownerId", "organizationId", "prompt", "questionType", "category", "difficulty", "points", "createdAt", "updatedAt"]
+    },
+    "AssessmentAttempt": {
+      "title": "AssessmentAttempt",
+      "description": "Rekaman pengerjaan ujian oleh peserta",
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "UID peserta ujian"
+        },
+        "assessmentId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "ID kegiatan asesmen"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["in_progress", "submitted", "graded"],
+          "maxLength": 32,
+          "description": "Status pengerjaan"
+        },
+        "objectiveScore": {
+          "type": "integer",
+          "description": "Nilai objektif otomatis"
+        },
+        "finalScore": {
+          "type": "integer",
+          "description": "Nilai akhir keseluruhan"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu mulai pengerjaan"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaruan pengerjaan"
+        }
+      },
+      "required": ["participantId", "assessmentId", "status", "objectiveScore", "finalScore", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Koleksi profil publik pengguna"
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Subkoleksi informasi privat pengguna (isolasi PII)"
+    },
+    "/assessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/AssessmentActivity" },
+      "description": "Koleksi kegiatan asesmen"
+    },
+    "/questions/{questionId}": {
+      "schema": { "$ref": "#/entities/QuestionItem" },
+      "description": "Koleksi butir bank soal"
+    },
+    "/attempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/AssessmentAttempt" },
+      "description": "Koleksi percobaan ujian peserta"
+    }
+  }
+}
